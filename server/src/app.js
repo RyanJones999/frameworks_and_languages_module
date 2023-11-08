@@ -1,6 +1,6 @@
-import express from "npm:express";
-import cors from "npm:cors";
-import * as handlers from "./handlers.ts";
+import express from "express";
+import cors from "cors";
+import * as handlers from "./handlers.js";
 
 // Set the port
 const port = 8000

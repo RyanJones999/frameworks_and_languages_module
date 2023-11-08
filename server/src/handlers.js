@@ -78,3 +78,5 @@ export const get_item = (id) => {
       }
     return false;
 }
+
+module.exports = { add_item };
