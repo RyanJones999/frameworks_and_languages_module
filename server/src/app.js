@@ -1,5 +1,5 @@
-import express from "express";
-import cors from "cors";
+import express from "npm:express";
+import cors from "npm:cors";
 import * as handlers from "./handlers.js";
 
 // Set the port
