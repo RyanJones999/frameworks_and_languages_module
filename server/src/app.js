@@ -10,19 +10,15 @@ const port = 8000
 
 // Initialize the Express application
 const app = express();
-
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
+app.use(cors());
 
 // Routes ----------------------------------------------------------------------
 
-app.get('/', (req, res) => {
-  res.sendFile('client.html', {root: __dirname})
-})
-
-app.post('/item', (req, res) => {
-  const body = req.body;
-  console.log(body);
+app.post('/item', async function (req, res, next) {
+  const body = await req.body;
+  console.log(req.body);
+  //console.log(req);
   const item_id = handlers.add_item(body);
   if (item_id) {
     res.status(201);
