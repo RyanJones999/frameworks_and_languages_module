@@ -1,4 +1,4 @@
-export const items = []; //removed type annotations as i am no longer using typescript
+globalThis.items = []; //removed type annotations as i am no longer using typescript
 
 //After doing some research it is recommended to avoid using the type 'any' to maintain safety and ensure code clarity.
 //Instead I can declare a set of types including a nested list for keywords, which only needs to contain strings
