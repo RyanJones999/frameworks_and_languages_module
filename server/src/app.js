@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import express from "npm:express";
 import cors from "npm:cors";
 import * as handlers from "./handlers.ts";
@@ -17,11 +16,11 @@ app.use(cors())
 
 // Routes ----------------------------------------------------------------------
 
-app.get('/', (req: any , res: any) => {
+app.get('/', (req, res) => {
   res.sendFile('client.html', {root: __dirname})
 })
 
-app.post('/item', (req: any, res: any) => {
+app.post('/item', (req, res) => {
   const body = req.body;
   console.log(body);
   const item_id = handlers.add_item(body);
@@ -34,7 +33,7 @@ app.post('/item', (req: any, res: any) => {
   } 
 });
 
-app.get('/item/:itemId', (req: any, res: any) => {
+app.get('/item/:itemId', (req, res) => {
   const id = req.params.itemId;
   const item = handlers.get_item(id);
   if (item) {

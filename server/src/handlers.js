@@ -1,6 +1,6 @@
-import { items } from './global.ts'
+import { items } from './global.js'
 
-export const add_item = (item: any) => {
+export const add_item = (item) => {
     // check for required fields
     const required_fields = ["user_id", "keywords", "description", "image", "lat", "lon"];
     for (const field of required_fields) {
@@ -72,7 +72,7 @@ export const add_item = (item: any) => {
     return new_item.id;
 }
 
-export const get_item = (id: number) => {
+export const get_item = (id) => {
     if (items[id] !== undefined) {
         return items[id]
       }
