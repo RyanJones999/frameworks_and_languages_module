@@ -1,7 +1,7 @@
 {
     "keyboard.layout": "00000809",
     "workbench.startupEditor": "none",
-    "workbench.panel.defaultLocation": "right",
+    "workbench.panel.defaultLocation": "bottom",
     "editor.renderWhitespace": "all",
     "editor.renderControlCharacters": true,
     "editor.bracketPairColorization.enabled": true,
