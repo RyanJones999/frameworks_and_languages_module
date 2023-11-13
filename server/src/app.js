@@ -42,6 +42,10 @@ app.get('/item/:itemId', (req, res) => {
   } 
 });
 
+app.get('/', (_req, res) => {
+  res.status(200).send('Welcome to the API');
+});
+
 app.get('/items/', (_req, res) => {
   const allItems = handlers.get_all_items();
   res.status(200).json(allItems);
