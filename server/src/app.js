@@ -9,6 +9,7 @@ const port = 8000
 
 // Initialize the Express application
 const app = express();
+
 app.use(express.json());
 app.use(cors());
 
@@ -18,12 +19,13 @@ app.post('/item', async function (req, res) {
   const body = await req.body;
   console.log(req.body);
   const item_id = handlers.add_item(body);
-  console.log(item_id);
+  //const item_res = handlers.get_item(item_id)
+  console.log(handlers.get_item(item_id))
   if (typeof(item_id) == typeof(1)) {
-    res.status(201);
+    res.status(201).json({ message: "Item created successfully"});
     res.send(`${item_id}`);
   } else {
-    res.status(405);
+    res.status(405).json({ message: "Invalid input - some input fields may be missing"});
     res.send();
   } 
 });
@@ -32,11 +34,34 @@ app.get('/item/:itemId', (req, res) => {
   const id = req.params.itemId;
   const item = handlers.get_item(id);
   if (item) {
-    res.status(200).json(item);
+    res.status(200).json({item});
+    res.send()
   } else {
     res.status(404).json({ message: "Item not found." });
+    res.send()
   } 
 });
+
+app.get('/items/', (_req, res) => {
+  const allItems = handlers.get_all_items();
+  res.status(200).json(allItems);
+});
+
+app.delete('/item/:itemId', (req, res) => {
+  const id = parseInt(req.params.itemId, 10); // Convert to number if necessary
+  console.log("Deleting item with ID:", id);
+
+  const result = handlers.delete_item(id);
+
+  if (result) {
+    console.log("Item successfully deleted:", id);
+    res.status(204).json({ message: "Ok" });
+  } else {
+    console.log("Item not found or could not be deleted:", id);
+    res.status(404).json({ message: "Item not found" });
+  }
+});
+
 
 // Start the server on port 8000
 app.listen(port, () => {
