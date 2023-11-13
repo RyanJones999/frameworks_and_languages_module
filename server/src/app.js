@@ -17,11 +17,11 @@ app.use(cors());
 
 app.post('/item', (req, res) => {
   const body = req.body;
-  console.log(req.body);
-  const item_id = handlers.add_item(body);
-  console.log(handlers.get_item(item_id))
-  if (typeof(item_id) == typeof(1)) {
-    res.status(201).json({ message: "Item created successfully"});
+  const item = handlers.add_item(body);
+  const item_id = item.id
+  console.log(item);
+  if (typeof(item_id) == typeof(1))  {
+    res.status(201).json(item);
   } else {
     res.status(405).json({ message: "Invalid input - some input fields may be missing"});
   } 
@@ -29,9 +29,11 @@ app.post('/item', (req, res) => {
 
 app.get('/item/:itemId', (req, res) => {
   const id = req.params.itemId;
+  //console.log(id) 
   const item = handlers.get_item(id);
   if (item) {
     res.status(200).json({item});
+    console.log(item)
   } else {
     res.status(404).json({ message: "Item not found." });
   } 
