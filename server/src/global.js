@@ -1,1 +1,1 @@
- export const items = []; //export allows me to access the complete items list in other js modules
+ export const items = {}; //export allows me to access the complete items list in other js modules

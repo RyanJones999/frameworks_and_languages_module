@@ -15,18 +15,15 @@ app.use(cors());
 
 // Routes ----------------------------------------------------------------------
 
-app.post('/item', async function (req, res) {
-  const body = await req.body;
+app.post('/item', (req, res) => {
+  const body = req.body;
   console.log(req.body);
   const item_id = handlers.add_item(body);
-  //const item_res = handlers.get_item(item_id)
   console.log(handlers.get_item(item_id))
   if (typeof(item_id) == typeof(1)) {
     res.status(201).json({ message: "Item created successfully"});
-    res.send(`${item_id}`);
   } else {
     res.status(405).json({ message: "Invalid input - some input fields may be missing"});
-    res.send();
   } 
 });
 
@@ -35,10 +32,8 @@ app.get('/item/:itemId', (req, res) => {
   const item = handlers.get_item(id);
   if (item) {
     res.status(200).json({item});
-    res.send()
   } else {
     res.status(404).json({ message: "Item not found." });
-    res.send()
   } 
 });
 

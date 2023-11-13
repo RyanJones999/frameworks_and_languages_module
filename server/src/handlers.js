@@ -1,7 +1,8 @@
 import { items } from './global.js';
 
+let itemCount = 0; // A counter to generate unique IDs
+
 export const add_item = (item) => {
-    // check for required fields
     const required_fields = ["user_id", "keywords", "description", "image", "lat", "lon"];
     for (const field of required_fields) {
         if (!item.hasOwnProperty(field)) {
@@ -11,73 +12,28 @@ export const add_item = (item) => {
     }
 
     const new_item = {
-        id: items.length,
+        id: itemCount++,
         date_from: new Date().toISOString(),
-        user_id: "",
-        keywords: [],
-        description: "",
-        image: "",
-        lat: 0.0,
-        lon: 0.0
+        ...item // Spread operator to copy fields from item
     };
 
-    if (typeof item.user_id === "string") {
-        new_item.user_id = item.user_id;
-    } else {
-        return false;
-    }
-
-    if (Array.isArray(item.keywords)) {
-        new_item.keywords = item.keywords;
-    } else {
-        return false;
-    }
-
-    if (typeof item.description === "string") {
-        new_item.description = item.description;
-    } else {
-        return false;
-    }
-
-    if (typeof item.image === "string") {
-        new_item.image = item.image;
-    } else {
-        return false;
-    }
-
-    if (typeof item.lat === "number") {
-        new_item.lat = item.lat;
-    } else {
-        return false;
-    }
-
-    if (typeof item.lon === "number") {
-        new_item.lon = item.lon;
-    } else {
-        return false;
-    }
-
-    items.push(new_item); // Push the new_item object to the items array
+    items[new_item.id] = new_item; // Add the new_item to the dictionary
     return new_item.id;
 };
 
 export const get_item = (id) => {
-    if (items[id] !== undefined) {
-        return items[id];
-    }
-    return false;
+    return items[id] || false;
 };
 
 export const get_all_items = () => {
-    return items;
+    return Object.values(items);
 };
 
 export const delete_item = (id) => {
-    const index = items.findIndex(item => item.id === id);
-    if (index > -1) {
-      items.splice(index, 1);
-      return true; // Successfully deleted
+    if (items[id]) {
+      delete items[id];
+      return true;
     } else {
-      return false; // Item not found
+      return false;
     }
-  };
+};
