@@ -14,7 +14,10 @@ export const add_item = (item) => {
 
     // Generate the new ID
 const existingIds = Object.keys(items).map(key => parseInt(key, 10));
-const nextId = existingIds.length === 0 ? 1 : Math.max(...existingIds) + 1;
+let nextId = existingIds.length === 0 ? 1 : Math.max(...existingIds) + 1;
+console.log(typeof(nextId))
+ nextId = nextId.toString()
+
 
     const new_item = {
         id: nextId,
@@ -60,11 +63,13 @@ const nextId = existingIds.length === 0 ? 1 : Math.max(...existingIds) + 1;
     }
 
     items[nextId] = new_item; // Add the new_item to the dictionary
+  // items.push(new_item)
     return new_item;
 };
 
 export const get_item = (id) => {
-    return items[id] || false;
+    const result = items[id]
+    return result || false;
 };
 
 export const get_all_items = () => {
