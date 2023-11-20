@@ -1,5 +1,5 @@
-import express from 'express';
-import cors from "cors";
+import express from 'npm:express';
+import cors from "npm:cors";
 import * as handlers from "./handlers.js";
 
 const app = express();
@@ -18,7 +18,7 @@ app.post('/item', (req, res) => {
     res.status(201).json(item);
   } else {
     // Respond with an error if parsing fails
-    res.status(400).json({ message: 'Invalid JSON format' });
+    res.status(405).json({ message: 'Invalid JSON format' });
   }
 });
 
