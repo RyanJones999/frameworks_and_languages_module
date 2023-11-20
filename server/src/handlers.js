@@ -1,28 +1,5 @@
 import { items } from './global.js';
 
-/*export const jsonParser = (jsonString) => {
-    // Remove line continuation backslashes (\) followed by a newline character
-    jsonString = jsonString.replace(/\\\n/g, '');
-  
-    // Replace single quotes with double quotes
-    jsonString = jsonString.replace(/'([^']*)'/g, '"$1"');
-  
-    // Remove trailing commas from arrays and objects
-    jsonString = jsonString.replace(/,\s*([\]}])/g, '$1');
-  
-    return jsonString;
-};
-
-export const isValidJSON = (jsonObject) => {
-    try {
-        JSON.parse(jsonObject);
-        return true;
-      } catch (error) {
-        console.log(error)
-        return false;
-      }
-};*/
-
 export const add_item = (item) => {
     console.log("entered handlers")
     console.log(item)
@@ -42,8 +19,8 @@ export const add_item = (item) => {
     const new_item = {
         id: myUUID,
         ...item, // Spread operator to copy fields from item
-        date_from: new Date().toISOString(),
-        date_to: new Date().toISOString(),
+        date_from: new Date().toISOString().replace(/Z$/, ''), //this is an abomination
+        date_to: new Date().toISOString().replace(/Z$/, ''),
     };
 
     if (typeof item.user_id === "string") {
