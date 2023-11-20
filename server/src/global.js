@@ -1,4 +1,4 @@
-export const items = {}
+export const items = []
 
 
 //const item = items[1];

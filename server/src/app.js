@@ -1,40 +1,33 @@
-import express from "npm:express";
-import cors from "npm:cors";
+import express from 'express';
+import cors from "cors";
 import * as handlers from "./handlers.js";
 
-// Set the port
-const port = 8000
-
-// initializing the items variable
-
-// Initialize the Express application
 const app = express();
+const port = 8000;
 
-app.use(express.json());
-app.use(cors());
+//app.use(express.json())
+app.use(express.json())
+app.use(cors())
 
-// Routes ----------------------------------------------------------------------
-
+// POST route
 app.post('/item', (req, res) => {
   const body = req.body;
+  console.log(body)
   const item = handlers.add_item(body);
-  const id = item.id
-  console.log(item)
-  if (typeof(id) == typeof('string'))  {
+  if (item) {
     res.status(201).json(item);
-  }
-  else {
-    res.status(405).json({ message: "Invalid input - some input fields may be missing"});
+  } else {
+    // Respond with an error if parsing fails
+    res.status(400).json({ message: 'Invalid JSON format' });
   }
 });
 
 app.get('/item/:itemId', (req, res) => {
   const id = req.params.itemId;
-  console.log(id)
-  const item = handlers.get_item(id);
+  //console.log(typeof(id))
+  const item = handlers.get_item(id)
   if (item) {
     res.status(200).json(item);
-    console.log(handlers.get_item(id))
   } else {
     res.status(404).json({ message: "Item not found." });
   } 
