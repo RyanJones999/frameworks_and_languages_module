@@ -115,14 +115,16 @@ export const get_all_items = () => {
 };
 
 export const delete_item = (id) => {
-    console.log(id)
     for (let i = 0; i < items.length; i++) {
+        // Add a log to check what IDs are being compared
+        console.log(`Comparing: ${items[i].id} with ${id}`);
+
         if (items[i].id === id) {
-            console.log(i);
-            console.log(items[i]);
-            console.log(items[i].id);
-            delete items[i]
-            return foundItem;
+            console.log(`Deleting item with ID: ${id}`);
+            items.splice(i, 1); // Remove the item from the array
+            return true; // Item found and deleted
         }
     }
+    console.log(`Item with ID: ${id} not found`);
+    return false; // No item found with the given ID
 };

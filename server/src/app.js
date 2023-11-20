@@ -44,6 +44,7 @@ app.get('/items/', (_req, res) => {
 
 app.delete('/item/:itemId', (req, res) => {
   const id = req.params.itemId // Convert to number if necessary
+  console.log(typeof(id))
   console.log("Deleting item with ID:", id);
 
   const result = handlers.delete_item(id);
