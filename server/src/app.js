@@ -18,7 +18,7 @@ app.post('/item', (req, res) => {
     res.status(201).json(item);
   } else {
     // Respond with an error if parsing fails
-    res.status(405).json({ message: 'Invalid JSON format' });
+    res.status(405).json({ message: 'Invalid input - some input fields may be missing' });
   }
 });
 
