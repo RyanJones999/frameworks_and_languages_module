@@ -9,7 +9,19 @@ Objectives
         * Interviews ..?
         * Future self learning ..?
     * What problem are these technologies trying to solve
+SPA -
 
+The main opposition to SPAs is that MPA have access to more capabilities than before. This reduces the need to build SPAs to achieve the "native-like" feeling.
+
+MPA features:
+
+- Back/Forward caching for faster navigation between pages
+- Offline support
+- Web components provide a reusable UI component layer
+
+Another one of the downsides with SPAs need a client-side router to hide and show HTML views. Whereas browsers handle page navigation using anchor tags. Anchor tags also contribute to the page rankings and sends signals to search engines on what a page is about. Another benefit of using web browsers is that they are stable in time, they will not be changing as to remain competetive in the market they have to offer backwards compatability. 
+
+One example of how backwards compatability works with browsers, is jQuery was used in many sites to smooth over the differences
 
 Company TechStack
 -----------------
@@ -30,6 +42,9 @@ Company TechStack
     * Find 3 companies
         * Identify 2 technologies you're aware of
         * Identify 1 technology you are not away of - find out about it - what is it for?
+
+     `I am familiar with Typescript and React but not familiar with Redis.`
+          
 * Note: This site has a login-wall - let's get round that ...
     * Bring up browser development tools `F12` 
     * Set the modal to `display: none;`
