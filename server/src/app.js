@@ -38,6 +38,7 @@ app.get('/', (_req, res) => {
 });
 
 app.get('/items/', (_req, res) => {
+  console.log("recieved get request")
   const allItems = handlers.get_all_items();
   res.status(200).json(allItems);
 });
