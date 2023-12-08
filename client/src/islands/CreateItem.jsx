@@ -33,6 +33,7 @@ export default function CreateItem() {
   
     return (
         <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-6 bg-white p-8 shadow-md rounded-lg">
+          <h1>Create New Item</h1>
         <div>
           <label htmlFor="user_id" className="block text-sm font-medium text-gray-700">User ID:</label>
           <input type="text" id="user_id" name="user_id" required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
