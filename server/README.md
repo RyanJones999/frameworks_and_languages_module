@@ -69,6 +69,26 @@ To add an item, send a POST request with the following JSON data:
 curl -X POST http://localhost:8000/item -H "Content-Type: application/json" -d '{"user_id": "user1234", "keywords": ["hammer", "nails", "tools"], "description": "A hammer and nails set", "image": "https://placekitten.com/200/300", "lat": 51.2798438, "lon": 1.0830275}'
 ~~~
 
+After a successful POST request you should get a response that looks like this:
+
+~~~bash
+{"id":"f0b85bb9-2965-43ca-96f9-3763a7cabacd","user_id":"user1234","keywords":["hammer","nails","tools"],"description":"A hammer and nails set","image":"https://placekitten.com/200/300","lat":51.2798438,"lon":1.0830275,"date_from":"2023-12-13T19:20:43.535","date_to":"2023-12-13T19:20:43.696"}
+~~~
+
+As you can see a unique ID has been generated and added to the item above: `"id":"f0b85bb9-2965-43ca-96f9-3763a7cabacd"`
+
+If there are missing fields in the POST request it will be fail, here is an example of a POST request with missing fields to demonstrate:
+
+~~~bash
+curl -X POST http://localhost:8000/item -H "Content-Type: application/json" -d '{"user_id": "user1234", "keywords": ["hammer", "nails", "tools"], "description": "A hammer and nails set", "image": "https://placekitten.com/200/300,"}'
+~~~
+
+I have purposely removed the `lat` and `lon` from the original request to demonstrate the error handling. With this request you will get the following response:
+
+~~~bash
+{"message":"Invalid input - some input fields may be missing"}
+~~~
+
 ### Retrieving an Item
 To retrieve an item by its ID, send a GET request with the following URL format:
 
@@ -78,12 +98,23 @@ curl http://localhost:8000/item/{itemId}
 
 Replace `{itemId}` with the actual ID of the item you want to get.
 
+You  can copy the item ID straight after running a POST request to test this.
+
+If the ID provided in the GET request is invalid or does not exist it will return the following:
+
+~~~bash
+{"message":"Item not found."}
+~~~
+
 ### Retrieving All Items
 To get a list of all items:
 ~~~bash
 curl http://localhost:8000/items/
 ~~~
-
+If no items exist then the following error message will appear:
+~~~bash
+{"message":"Item not found."}
+~~~
 ### Deleting an Item
 To delete an item by its ID:
 
@@ -91,6 +122,12 @@ To delete an item by its ID:
 curl -X DELETE http://localhost:8000/item/{itemId}
 ~~~
 Replace `{itemId}` with the actual ID of the item you want to delete.
+
+If the item does not exist the following error message will appear:
+
+~~~bash
+{"message":"Item not found."}
+~~~
 
 
 
