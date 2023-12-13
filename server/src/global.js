@@ -1,6 +1,2 @@
-export const items = []
-
-
-//const item = items[1];
-
-//console.log(item)
+// Export an empty array named 'items'. This array can be used to store and manage items in memory.
+export const items = [];
