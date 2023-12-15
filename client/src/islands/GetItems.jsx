@@ -1,13 +1,15 @@
 // islands/GetItems.jsx
 import { useEffect, useState } from "preact/hooks";
 
-const GetItems = () => {
+const GetItems = ({api}) => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState('');
 
   const fetchItems = async () => {
     try {
-      const response = await fetch('http://localhost:8000/items');
+      const fetchUrl = api ? `${api}/items/` : 'http://localhost:8000/items/'; //This is broken
+      console.log(fetchUrl)
+      const response = await fetch(fetchUrl);
       if (!response.ok) {
         throw new Error('Failed to fetch items');
       }

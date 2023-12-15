@@ -1,7 +1,7 @@
 // islands/CreateItem.jsx
 import { useState } from "preact/hooks";
 
-export default function CreateItem() {
+export default function CreateItem({api}) {
   const [formData, setFormData] = useState({
     user_id: '',
     keywords: '',
@@ -12,6 +12,7 @@ export default function CreateItem() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log("Form submitted"); // For debugging
 
     // Transform 'keywords' from string to array and parse 'lat' and 'lon'
     const submitData = {
@@ -22,7 +23,8 @@ export default function CreateItem() {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/item', {
+      const fetchUrl = api ? `${api}/item/` : 'http://localhost:8000/item';
+      const response = await fetch(fetchUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

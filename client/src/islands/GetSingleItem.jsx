@@ -1,15 +1,19 @@
 // islands/GetSingleItem.jsx
 import { useState } from "preact/hooks";
 
-const GetSingleItem = () => {
+const GetSingleItem = ({ api }) => {
   const [itemId, setItemId] = useState('');
   const [item, setItem] = useState(null);
   const [error, setError] = useState('');
 
   const fetchItem = async () => {
-    setError('');
+    if (!api || !itemId) {
+      setError('API URL or Item ID is missing.');
+      return;
+    }
+
     try {
-      const response = await fetch(`http://localhost:8000/item/${itemId}`);
+      const response = await fetch(`${api}/item/${itemId}`);
       if (!response.ok) {
         throw new Error('Failed to fetch the item');
       }

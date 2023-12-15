@@ -1,7 +1,7 @@
 // islands/DeleteItem.jsx
 import { useState } from "preact/hooks";
 
-export default function DeleteItem() {
+export default function DeleteItem({api}) {
   const [itemId, setItemId] = useState('');
 
   const handleDelete = async (event) => {
@@ -13,7 +13,7 @@ export default function DeleteItem() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/item/${itemId}`, {
+      const response = await fetch(`${api}/item/${itemId}`, {
         method: 'DELETE',
       });
 
