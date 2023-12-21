@@ -1,6 +1,9 @@
 import { useState } from "preact/hooks";
 
+// CreateItem component allows for creating new items and submitting them to the API.
 export default function CreateItem({api}) {
+
+  // State for form data to handle user input.
   const [formData, setFormData] = useState({
     user_id: 'user123',
     keywords: '',
@@ -10,11 +13,12 @@ export default function CreateItem({api}) {
     lon: ''
   });
 
+  // Handles the form submission.
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log("Form submitted"); // For debugging
+    event.preventDefault(); // Prevents the default form submission action.
+    console.log("Form submitted"); // Logs to the console for debugging.
 
-    // Transform 'keywords' from string to array and parse 'lat' and 'lon'
+    // Prepares the data for submission, including transforming 'keywords' and parsing 'lat' and 'lon'.
     const submitData = {
       ...formData,
       keywords: formData.keywords.split(',').map(kw => kw.trim()),
@@ -23,6 +27,7 @@ export default function CreateItem({api}) {
     };
 
     try {
+      // Makes a POST request to the API to create a new item.
       const fetchUrl = `${api}/item/`;
       const response = await fetch(fetchUrl, {
         method: 'POST',
@@ -31,24 +36,27 @@ export default function CreateItem({api}) {
         },
         body: JSON.stringify(submitData),
       });
-
+      
+      // Handles the response, dispatching an event and resetting the form on success.
       if (response.ok) {
-        console.log('Item created:', await response.json());
+        console.log('Item created:', await response.json()); // Signals item creation to other components.
         dispatchEvent(new CustomEvent('itemCreated'));
-        setFormData({ user_id: '', keywords: '', description: '', lat: '', lon: '' }); // Reset the form
+        setFormData({ user_id: '', keywords: '', description: '', lat: '', lon: '' }); // Resets the form data
       } else {
-        console.error('Failed to create item:', await response.text());
+        console.error('Failed to create item:', await response.text()); // Logs error in case of failure.
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:', error); // Logs error if the request fails.
     }
   };
 
+  // Updates formData state when there are changes in the form inputs.
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+// Create Item Form
   return (
     <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-6 bg-white p-8 shadow-md rounded-lg">
       <h1>Create New Item</h1>

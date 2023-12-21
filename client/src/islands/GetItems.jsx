@@ -1,36 +1,48 @@
 import { useEffect, useState } from "preact/hooks";
 
+// The GetItems component is responsible for fetching 
 const GetItems = ({api}) => {
+  // State for storing items and error messages.
   const [items, setItems] = useState([]);
   const [error, setError] = useState('');
 
+  // Function to fetch items from the API.
   const fetchItems = async () => {
     try {
+      // Constructing the URL for the API request.
       const fetchUrl = `${api}/items/`;
       console.log(fetchUrl)
       const response = await fetch(fetchUrl);
+
+      // Throw an error if the response is not OK
       if (!response.ok) {
         throw new Error('Failed to fetch items');
       }
+
+      // Parsing the JSON response and updating the items state.
       const data = await response.json();
       setItems(data);
     } catch (err) {
+      // Set the error message in state if an error occurs.
       setError(err.message);
     }
   };
 
+  // Function to handle item deletion.
   const handleDelete = async (itemId) => {
-
+    // Alert if itemId is not provided.
     if (!itemId) {
       alert("Please enter an item ID to delete.");
       return;
     }
 
     try {
+      // Sending a DELETE request to the API to remove the item.
       const response = await fetch(`${api}/item/${itemId}`, {
         method: 'DELETE',
       });
 
+      // Logging success or failure messages for debugging
       if (response.ok) {
         console.log('Item deleted successfully');
 
@@ -44,22 +56,27 @@ const GetItems = ({api}) => {
     }
   };
 
+  // useEffect hook to fetch items initially and set up event listeners for item creation and deletion.
   useEffect(() => {
     const handleItemsUpdated = () => {
       fetchItems();
     };
 
+    // Adding event listeners for custom events 'itemCreated' and 'itemDeleted'.
     addEventListener('itemCreated', handleItemsUpdated);
     addEventListener('itemDeleted', handleItemsUpdated);
 
-    fetchItems(); // Fetch items initially
+    // Fetch items initially
+    fetchItems(); 
 
+    // Cleanup function to remove event listeners
     return () => {
       removeEventListener('itemCreated', handleItemsUpdated);
       removeEventListener('itemDeleted', handleItemsUpdated);
     };
   }, []);
 
+  // Rendering the list of items
   return (
     <>
     <div>
