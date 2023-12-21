@@ -3,9 +3,10 @@ import { useState } from "preact/hooks";
 
 export default function CreateItem({api}) {
   const [formData, setFormData] = useState({
-    user_id: '',
+    user_id: 'user123',
     keywords: '',
     description: '',
+    image: "http://placekitten.com/100/100",
     lat: '',
     lon: ''
   });
@@ -65,6 +66,10 @@ export default function CreateItem({api}) {
         <input type="text" id="description" name="description" value={formData.description} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
       </div>
       <div>
+        <label htmlFor="image" className="block text-sm font-medium text-gray-700">Image URL:</label>
+        <input type="text" id="image" name="image" value={formData.image} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+      </div>
+      <div>
         <label htmlFor="lat" className="block text-sm font-medium text-gray-700">Latitude:</label>
         <input type="number" id="lat" name="lat" value={formData.lat} onChange={handleChange} step="any" required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
       </div>
@@ -73,7 +78,7 @@ export default function CreateItem({api}) {
         <input type="number" id="lon" name="lon" value={formData.lon} onChange={handleChange} step="any" required className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
       </div>
       <div>
-        <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create Item</button>
+        <button data-action="create_item" type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create Item</button>
       </div>
     </form>
   );

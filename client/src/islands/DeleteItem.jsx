@@ -36,7 +36,7 @@ export default function DeleteItem({api}) {
       <div>
         <label htmlFor="itemId" className="block text-sm font-medium text-gray-700">Item ID:</label>
         <input
-          type="text"
+          type="hidden"
           id="itemId"
           name="itemId"
           value={itemId}
@@ -45,7 +45,7 @@ export default function DeleteItem({api}) {
           required
         />
       </div>
-      <button type="submit" className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
+      <button data-action="delete" type="submit" className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
         Delete Item
       </button>
     </form>
