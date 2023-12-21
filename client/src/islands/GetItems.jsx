@@ -1,4 +1,3 @@
-// islands/GetItems.jsx
 import { useEffect, useState } from "preact/hooks";
 
 const GetItems = ({api}) => {
@@ -7,7 +6,7 @@ const GetItems = ({api}) => {
 
   const fetchItems = async () => {
     try {
-      const fetchUrl = api ? `${api}/items/` : 'http://localhost:8000/items/'; //This is broken
+      const fetchUrl = `${api}/items/`;
       console.log(fetchUrl)
       const response = await fetch(fetchUrl);
       if (!response.ok) {
@@ -21,11 +20,6 @@ const GetItems = ({api}) => {
   };
 
   const handleDelete = async (itemId) => {
-    //event.preventDefault();
-    //const data = new FormData(event.target);
-    //const formProps = Object.fromEntries(data.entries());
-    //console.log(formProps);
-    //const itemId = formProps.itemId; 
 
     if (!itemId) {
       alert("Please enter an item ID to delete.");
@@ -39,7 +33,6 @@ const GetItems = ({api}) => {
 
       if (response.ok) {
         console.log('Item deleted successfully');
-        //setItemId(''); // Clear the input field
 
         // Dispatch a custom event to signal that an item has been deleted
         dispatchEvent(new CustomEvent('itemDeleted'));

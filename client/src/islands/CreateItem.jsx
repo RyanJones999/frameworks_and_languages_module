@@ -1,4 +1,3 @@
-// islands/CreateItem.jsx
 import { useState } from "preact/hooks";
 
 export default function CreateItem({api}) {
@@ -24,7 +23,7 @@ export default function CreateItem({api}) {
     };
 
     try {
-      const fetchUrl = api ? `${api}/item/` : 'http://localhost:8000/item';
+      const fetchUrl = `${api}/item/`;
       const response = await fetch(fetchUrl, {
         method: 'POST',
         headers: {
