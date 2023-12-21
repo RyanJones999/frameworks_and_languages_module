@@ -20,12 +20,12 @@ const GetItems = ({api}) => {
     }
   };
 
-  const handleDelete = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    const formProps = Object.fromEntries(data.entries());
-    console.log(formProps);
-    const itemId = formProps.itemId; 
+  const handleDelete = async (itemId) => {
+    //event.preventDefault();
+    //const data = new FormData(event.target);
+    //const formProps = Object.fromEntries(data.entries());
+    //console.log(formProps);
+    //const itemId = formProps.itemId; 
 
     if (!itemId) {
       alert("Please enter an item ID to delete.");
@@ -86,22 +86,10 @@ const GetItems = ({api}) => {
               <p>Date To: {item.date_to}</p>
               {item.image && <img src={item.image} alt={`Image for item ${item.description}`} className="max-w-xs mt-2" />}
               <p>Keywords: {item.keywords.join(', ')}</p>
-            </li>
-            <form onSubmit={handleDelete} className="space-y-2">
-      <div>
-        <input
-          type="hidden"
-          id="itemId"
-          name="itemId"
-          value={item.id} 
-          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-          required
-        />
-      </div>
-      <button data-action="delete" type = "submit" className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
+              <button data-action="delete" onClick={() => handleDelete(item.id)} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
         Delete Item
       </button>
-    </form>
+            </li>
             </div>
           ))}
         </ul>
