@@ -12,22 +12,22 @@ These instructions will guide you on how to set up and run the server either dir
 
 ### Using Deno
 
-1. Open a terminal and navigate to the root directory of your project.
+1. Open a terminal and navigate to the root directory of the project.
 
 2. Run the server with the following command:
 
 ~~~bash
 deno run -A app.js
 ~~~
-This command starts your server using Deno. The `-A` flag grants all permissions to the script.
+This command starts the server using Deno. The `-A` flag grants all permissions to the script.
 
-3. Your server should now be running and accessible at `http://localhost:8000`.
+3. the server should now be running and accessible at `http://localhost:8000`.
 
-4. To stop the server, use `Ctrl + C` in your terminal.
+4. To stop the server, use `Ctrl + C` in the terminal.
 
 ### Using Docker with Makefile
 
-#### Building the Docker Image
+#### Building and Running the Docker Image
 
 1. Open a terminal and navigate to the root directory of the project using the following command:
 
@@ -42,9 +42,7 @@ cd server
 make build
 ~~~
 
-#### Running the Docker Container
-
-1. Start the container with the following command:
+2. Start the container with the following command:
 
 ~~~ bash
 make run
@@ -52,13 +50,67 @@ make run
 
 This command uses the Makefile to run the `server` image as a container, mapping port 8000 of the container to port 8000 on your host machine.
 
-2. The server should now be accessible at `http://localhost:8000`.
+3. The server should now be accessible at `http://localhost:8000`.
 
-3. To stop the container, use `Ctrl + C` in the terminal.
+4. To stop the container, use `Ctrl + C` in the terminal.
 
 ## Testing the Server
+### Using Automated Tests
+1. To test the server using the automated tests, navigate to the `test_server` folder:
 
-To test the server the following `curl` commands can be used.
+~~~bash
+cd test_server
+~~~
+
+2. Then run the automated tests using `make`:
+
+~~~bash
+make test_server
+~~~
+
+~~~bash
+# A snippet of the expected result
+test_server-1  | ---------------- generated xml file: /pytest/reports/junit.xml -----------------
+test_server-1  | ---------- Generated html report: file:///pytest/reports/report.html -----------
+test_server-1  | ======================== 16 passed, 4 skipped in 4.46s =========================
+test_server-1 exited with code 0
+USER=197609:197609 docker compose --file docker-compose.yml --file docker-compose.cypress.yml --file docker-compose.test.yml down
+[+] Running 3/3
+ ✔ Container frameworks_and_languages_module-test_server-1  Removed                                                                              0.0s 
+ ✔ Container frameworks_and_languages_module-server-1       Removed                                                                              0.5s 
+ ✔ Network frameworks_and_languages_module_default          Removed
+~~~
+
+### Using pytest
+To use pytest to test the server, the server needs to be running, see the [Running the Server](#running-the-server) section above to run the server.
+
+1. Once the server is running, open another terminal and in the main project directory `frameworks_and_languages_module/` run the following command:
+
+~~~bash
+pytest --pdb
+~~~
+This command will also launch a helpful debugger to point out where errors are occuring.
+
+~~~bash
+# A snippet of the expected result
+========================================================== test session starts ==========================================================
+platform win32 -- Python 3.9.13, pytest-7.1.1, pluggy-1.0.0
+rootdir: C:\Users\Ryana\Projects\Uni\frameworks_and_languages_module
+plugins: anyio-3.5.0, cov-3.0.0, dependency-0.5.1
+collected 20 items
+
+test_server\test_api.py ................ssss                                                                                       [100%]
+
+=============================================== 16 passed, 4 skipped in 67.84s (0:01:07) ================================================
+~~~
+
+If a test fails it will appear above these lines and detail what is going wrong and where.
+
+## Using the Server
+
+To use without the client the server the following `curl` commands can be used. 
+
+To use the server with the client please see the ["Using the Client" ](https://github.com/RyanJones999/frameworks_and_languages_module/blob/e62cbf3b6349218937d9e541c3409460a434fb06/client/README.md#using-the-client) section in the client documentation.
 
 ### Adding an Item
 
