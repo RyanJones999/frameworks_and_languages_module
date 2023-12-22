@@ -38,10 +38,9 @@ cd server
 2. Now that you are where the Makefile is located, build the Docker image with this command:
 
 ~~~ bash
+# This command uses the Makefile to build a Docker image for the server.
 make build
 ~~~
-
-This command uses the Makefile to build a Docker image named `server`.
 
 #### Running the Docker Container
 
@@ -55,7 +54,7 @@ This command uses the Makefile to run the `server` image as a container, mapping
 
 2. The server should now be accessible at `http://localhost:8000`.
 
-3. To stop the container, simply exit the interactive terminal or use `Ctrl + C` in your terminal.
+3. To stop the container, use `Ctrl + C` in the terminal.
 
 ## Testing the Server
 
