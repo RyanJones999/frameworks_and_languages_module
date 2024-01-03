@@ -51,14 +51,6 @@ No preservation of the state and no modifying the state in the DOM, instead of c
 
 Manual routing in this code increases boilerplate code and error potential. As the application grows, managing routes becomes more complex and error-prone. It lacks features like route parameters and SEO-friendly, history API-based routing, using less flexible hash-based routing instead.
 
-### last client critique
-[example_client/index.html]()
-
-~~~
-
-~~~
-Explanation
-
 ### Manual Parsing of HTTP Requests
 
 [example_server/app/http_server.py](https://github.com/RyanJones999/frameworks_and_languages_module/blob/17286178689ef985928e20d97a349519f024b19b/example_server/app/http_server.py#L22)
@@ -100,15 +92,31 @@ Regular expressions are used to extract the HTTP method, path, version, headers 
 Modern web frameworks abstract this complexity away, allowing developers to focus on the logic of handling requests rather than the intricacies of parsing them.
 
 
-### (name of Issue 1)
+### Inadequate Field Validation
 
-(A code snippet example demonstrating the issue)
-(Explain why this pattern is problematic - 40ish words)
+[example_server/app/views.py](https://github.com/RyanJones999/frameworks_and_languages_module/blob/4344f64f5cf6586680ab89b2ddf0176b0d759d4b/example_server/app/views.py#L38)
+
+~~~python
+def post_item(request):
+    data = request.get('body')
+    REQUIRED_FIELDS = frozenset({'user_id', 'keywords', 'description', 'lat', 'lon'})
+    FIELDS = frozenset(data.keys())
+    if not REQUIRED_FIELDS.issubset(FIELDS):
+        return json_response({'error': f"missing fields", 'fields': tuple(REQUIRED_FIELDS - FIELDS)}, {'code': 405})
+    # TODO: check data types of input? lat,lon
+    data['date_from'] = datetime.datetime.now().isoformat()
+    item = datastore.create_item(data)
+    return json_response(item, {'code': 201})
+~~~
+
+While the function checks if required fields are present, it does not validate the type or format of the data. For example, 'lat' and 'lon' should be validated as valid geographic coordinates. Frameworks often provide comprehensive validation tools to ensure data integrity.
 
 ### Recommendation
-(why the existing implementation should not be used - 40ish words)
-(suggested direction - frameworks 40ish words)
+The existing client implementation should not be used
 
+The existing server implementation should not be used, manually parsing HTTP requests and limited data validation in the existing implementation can lead to errors, security vulnerabilities, and increased maintenance complexity, making it unsuitable for robust web application development.
+
+Modern web frameworks address the issues noted, like complex HTTP request parsing and limited data validation, by offering standardized request handling, comprehensive data validation, enhanced security and simplified maintanence. By using frameworks the development process can be streamlined to focus on core application functionality instead of low-level technicalities. Also modern day frameworks have extensive amounts of documentation on implementation, debugging and solutions to common issues; which removes the complexity behind creating a server from scratch (like in the existing implementation.).
 
 Server Framework Features
 -------------------------
