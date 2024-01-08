@@ -139,7 +139,7 @@ app.post('/item', (req, res) => {
 
 The `express.json` middleware function is used to automate the parsing of incoming request bodies into JSON format, a common requirement in modern web APIs. It processes ‘Content-Type: application/json’ headers in HTTP requests, seamlessly converting JSON payloads into JavaScript objects accessible via `req.body`, thereby abstracting the complexities of manual JSON parsing. This line `app.use(express.json())` integrates middleware for parsing JSON request bodies. This is a task that would require manual implementation in the existing server implementation.
 
-[Link to express.json documentation](http://expressjs.com/en/api.html#express.json)
+[express.json Documentation](http://expressjs.com/en/api.html#express.json)
 
 
 ### CORS
@@ -153,7 +153,7 @@ app.use(cors());
 
 The CORS middleware in Express.js addresses key limitations of the existing server implementation by simplifying the handling of cross-origin HTTP requests. It automatically sets appropriate CORS headers, enabling seamless resource sharing across different domains. This feature eliminates the need for manual header management and ensures compliance with web security standards, which are not inherently handled in the existing implementation. This results in enhanced security, ease of development, and broader accessibility for web applications.
 
-[Link to CORS documentation](https://expressjs.com/en/resources/middleware/cors.html)
+[CORS Documentation](https://expressjs.com/en/resources/middleware/cors.html)
 
 
 ### Structured Route Handling
@@ -176,25 +176,44 @@ This code exemplifies structured route handling by defining specific endpoints (
 
 In contrast, the hand-rolled Python server requires manual parsing of the HTTP request method and URL to determine the appropriate action. This can lead to more complex, less readable, and error-prone code, especially as the number of endpoints grows. Express.js's structured approach simplifies this process, enhancing clarity and reducing potential errors.
 
-[Link to express documentation](http://expressjs.com/en/starter/basic-routing.html)
+[Express Documentation](http://expressjs.com/en/starter/basic-routing.html)
 
 Server Language Features
 -----------------------
 
-### (name of Feature 1)
+### Module Import and Export
+
+Modules in JavaScript are an essential feature that allow for splitting code into separate files, thereby improving maintainability, reusability, and organization of code. ES6 introduced a standardized module system which is widely used in modern JavaScript development.
+
+~~~javascript
+import { items } from './global.js';
+...
+export const add_item = (item) => {
+    // function logic
+};
+~~~
+
+Modules allow javascript to have a built-in system for modularizing and organising code. The `import` statement is used to read in and bring in functions, objects, or primitives from another module or file. In this case I am reading in the `items` list from the `globals.js` file so it could be used in my `handlers.js` to populate. The `export` function statement makes functions, objects, or primitives from a module available for use in other modules. In this case I am exporting the `add_item` so that it can be used within the post route to parse the JSON object from incoming requests, so that the `items` list may be populated.
+
+[JavaScript Modules Documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
+
+
+### Spread Operator
 
 (Technical description of the feature - 40ish words)
-(A code block snippet example demonstrating the feature)
-(Explain the problem-this-is-solving/why/benefits/problems - 40ish words)
-(Provide reference urls to your sources of information about the feature - required)
 
+The spread operator `...item` provides a concise syntax for several operations in JavaScript, such as expanding arrays or objects to be expanded in places where zero or more arguments/ function calls/ elements and/ or array literals are expected. in an object literal, the spread syntax enumerates the properties of an object and adds the key-value pairs to the object being created.
+~~~javascript
+const new_item = {
+        id: myUUID,
+        ...item, // Spread operator to copy fields from item
+        date_from: new Date().toISOString().replace(/Z$/, ''), 
+        date_to: new Date().toISOString().replace(/Z$/, ''),
+    };
+~~~
+The spread operator in JavaScript simplifies array and object manipulation, enabling concise merging, cloning, and element expansion. It enhances code readability, supports immutable data patterns, and fits seamlessly with modern JavaScript practices, offering a straightforward solution for previously verbose operations. In this case I was using the spread operator `...item` copy the properties of `item` into `new_item`.
 
-### (name of Feature 2)
-
-(Technical description of the feature - 40ish words)
-(A code block snippet example demonstrating the feature)
-(Explain the problem-this-is-solving/why/benefits/problems - 40ish words)
-(Provide reference urls to your sources of information about the feature - required)
+[Spread Operator Documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 
 
 
@@ -250,14 +269,3 @@ Conclusions
 (justify why frameworks are recommended - 120ish words)
 (justify which frameworks should be used and why 180ish words)
 
-
-Unsorted Notes
-=============
-
-in the example server:
-
- No, the way the routing has been handled is not expandable as each one has been put into a function which generalizes how each route can be used. They are all in one place, can only route on the URL path. Other frameworks let you route on a variety of things.
-
- the CORS headers are set here: https://github.com/RyanJones999/frameworks_and_languages_module/blob/d3847e7dc51aa7b7fc243c63fd88103b70cfe26a/example_server/app/http_server.py#L66
-
- middleware is the code that runs between server and client that handles the pre-processing of requests to help modulate the code 
