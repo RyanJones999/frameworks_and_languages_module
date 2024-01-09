@@ -1,14 +1,13 @@
 Technical Report
 ================
-
-(intro describing purpose of report - 200ish words)
+This technical report critically evaluates the existing server and client prototype of a web application, focusing on its architecture, code structure, and functionality. The purpose is to identify areas where modern web development frameworks and language features could enhance the application's performance, scalability, and maintainability. By comparing the prototype's implementation with industry-standard practices, the report aims to provide insights into how leveraging contemporary frameworks and JavaScript features can address existing limitations and improve the overall efficiency and user experience of the web application.
 
 
 Critique of Server/Client prototype
 ---------------------
 
 ### Overview
-()
+The current prototype of the server and client application exhibits several fundamental deficiencies when evaluated against modern web development standards. The critique is focused on specific aspects of the application, including state management, DOM manipulation, HTTP request parsing, field validation, and overall architectural approach. Each of these areas is examined in detail to understand the impact of the current implementation choices and to explore how modern frameworks and language features could offer significant improvements
 
 ### State and View
 [example_client/index.html](https://github.com/RyanJones999/frameworks_and_languages_module/blob/17286178689ef985928e20d97a349519f024b19b/example_client/index.html#L115)
@@ -220,52 +219,117 @@ The spread operator in JavaScript simplifies array and object manipulation, enab
 Client Framework Features
 -------------------------
 
-### (name of Feature 1)
+### Island-Based Architecture
+
+The Fresh framework adopts an "island-based" architecture, which allows for selective hydration, where only interactive parts of the application (islands) load JavaScript, improving performance and reducing load time.
+
+~~~javascript
+// Render the main page content.
+import CreateItem from "../islands/CreateItem.jsx";
+import GetItems from "../islands/GetItems.jsx";
+
+export default function Home({ url }) {
+  // ... URL parameter handling logic ...
+
+  return (
+    <>
+      <h1>FreeCycle</h1>
+      <div>
+        <CreateItem api={api} />
+      </div>
+      <div>
+        <GetItems api={api}/>
+      </div>
+    </>
+  );
+}
+~~~
+
+The island-based architecture is utillised here by importing `CreateItem` and `GetItems` components. This selectivly enhances the interactive parts of the webpage with JavaScript, optimizing performance. This approach addresses the typical SPA's issue of loading excessive JavaScript, ensuring faster page loads and improved user experience. It's particularly beneficial for efficient resource usage, better SEO, and maintaining a clear seperation between dynamic and static content making the application more scalable and maintainable.
+
+[Islands Architecture Documentation](https://deno.com/blog/intro-to-islands)
+
+### Server-Side Rendering (SSR)
+
+Server-Side Rendering (SSR) in Deno Fresh is a process where the server pre-renders the web page's content into HTML before sending it to the client's browser. Unlike client-side rendering, where javascript is excecuted in the browser to render the page. In Fresh, SSR in integral, the server executes the application's JavaScript, including components written in `jsx` or `tsx`, to generate the corresponding HTML. The HTML is then sent to the browser along with minimal JavaScript for interactivity. 
+
+~~~javascript
+export default function Home({ url }) {
+  // JSX rendering logic
+}
+~~~
+
+Server-Side Rendering (SSR) in Deno Fresh significantly enhances performance by reducing initial load times, especially on slower networks or devices. It's vital for SEO, as search engines more effectively index server-rendered content. SSR also ensures content accessibility for users with limited or no JavaScript support. The `Home` function is a server-rendered component, transforming the JSX into HTML. This process enables immediate content availability upon the initial page load, bypassing the need for client-side JavaScript execution.
+
+[SSR Documentation](https://deno.com/blog/the-future-and-past-is-server-side-rendering)
+
+### Integration with Async Operations
 
 (Technical description of the feature - 40ish words)
-(A code block snippet example demonstrating the feature)
-(Explain the problem-this-is-solving/why/benefits/problems - 40ish words)
-(Provide reference urls to your sources of information about the feature - required)
+Fresh's architecture allows for seamless integration of asynchronous operations like API calls using`fetch`. Thiis is evident in the form submission logic, where the asynchronous posting of data to the API enpoint occurs.
 
+~~~javascript
+try {
+  const response = await fetch(`${api}/item/`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(submitData),
+  });
+  // ... response handling ...
+}
+~~~
 
-### (name of Feature 2)
+The integration of event handling and asynchronous requests in the `CreateItem` component enhances user interactivity and efficiently manages server communications. This approach ensures a responsive UI, maintains application performance during network requests, and provides a scalable solution for dynamic user interactions and data handling.
 
-(Technical description of the feature - 40ish words)
-(A code block snippet example demonstrating the feature)
-(Explain the problem-this-is-solving/why/benefits/problems - 40ish words)
-(Provide reference urls to your sources of information about the feature - required)
-
-
-### (name of Feature 3)
-
-(Technical description of the feature - 40ish words)
-(A code block snippet example demonstrating the feature)
-(Explain the problem-this-is-solving/why/benefits/problems - 40ish words)
-(Provide reference urls to your sources of information about the feature - required)
-
+[Async Routing Documentation](https://deno.com/blog/fresh-1.3)
 
 Client Language Features
 ------------------------
 
-### (name of Feature 1)
+### Efficient State Management with the useState Hook
 
-(Technical description of the feature - 40ish words)
-(A code block snippet example demonstrating the feature)
+The concept of hooks, introduced in React and also available in Preact, is a JavaScript language feature. It's a pattern enabled by the JavaScript language's closure and function capabilities. Hooks allow you to use state and other React features without writing a class, which is a significant shift from the traditional class-based component state management.
+
+~~~javascript
+import { useState } from "preact/hooks";
+
+export default function CreateItem({api}) {
+  // State for form data to handle user input.
+  const [formData, setFormData] = useState({
+    user_id: 'user123',
+    keywords: '',
+    description: '',
+    image: "http://placekitten.com/100/100",
+    lat: '',
+    lon: ''
+  });
+}
+~~~
+
 (Explain the problem-this-is-solving/why/benefits/problems - 40ish words)
-(Provide reference urls to your sources of information about the feature - required)
+The `useState` hook in the `CreateItem` component simplifies state management, addressing complexities of class conponents by enabling efficient local state handling in functional components. It enhances code readability, maintainability and reuseability.
 
-### (name of Feature 2)
+[Hooks Documentation](https://preactjs.com/guide/v10/hooks/)
 
-(Technical description of the feature - 40ish words)
-(A code block snippet example demonstrating the feature)
-(Explain the problem-this-is-solving/why/benefits/problems - 40ish words)
-(Provide reference urls to your sources of information about the feature - required)
+### Template Literals: Simplifying Strings
 
+Template literals, introduced in ES6, are a significant improvement over the older string concatenation methods in JavaScript, offering a more expressive and flexible way to handle strings. This feature is widely used for dynamically generating URLs, messages, and other string content in modern JavaScript applications.
 
+~~~javascript
+const handleSubmit = async (event) => {
+  // ...
+  const fetchUrl = `${api}/item/`; // Template literal used here
+  // ...
+};
+~~~
+
+The use of templace literals in the `CreateItem` component addresses complex string concatenation challenges, enhancing the readability and maintainability of dynamic string creation, like API URLs. Their clear, expressive syntax simplifies embedding variables and expressions, offering improved code clarity and flexibility in crafting multiline strings and interpolated expressions. Also, it was used this way so the api parameter could be captured dynamically and could be used dynamically, with no hardcoding involved.
+
+[Template Literals Documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
 
 Conclusions
 -----------
 
-(justify why frameworks are recommended - 120ish words)
-(justify which frameworks should be used and why 180ish words)
+The recommendation to adopt modern web frameworks is strongly justified by the critique of the existing prototype. Frameworks like Express.js and Deno Fresh significantly enhance performance and user experience by eliminating full page refreshes and streamlining state management, leading to responsive and efficient applications. They simplify development and maintenance, offering structured solutions for routing and HTTP request handling, thus reducing complexity and error potential. This structured approach also bolsters security and robustness, providing inbuilt mechanisms for data validation and secure request processing. Furthermore, frameworks are designed to accommodate scalability, handling growing application needs more effectively than manual methods. By aligning with modern development practices and facilitating the use of contemporary JavaScript features, these frameworks ensure the application remains up-to-date with industry standards, making them a strategic choice for long-term application success and sustainability.
 
+Using Express.js for the server and Deno Fresh for the client is highly recommended. Express.js addresses the server-side prototype's challenges, such as manual HTTP request parsing and limited field validation, with its robust and secure framework. Its middleware capabilities, particularly express.json(), automate JSON parsing, improving data handling and reducing development complexities. Structured route handling in Express.js enhances maintainability and reduces errors, ensuring a more streamlined and secure server environment. On the client side, Deno Fresh effectively resolves issues related to manual DOM manipulation and state management. Its innovative island-based architecture optimizes JavaScript loading, leading to enhanced performance. Fresh’s server-side rendering feature significantly improves initial load times and boosts SEO. Additionally, Fresh's compatibility with modern JavaScript features, such as template literals and Preact's hooks, aligns with contemporary development practices, offering a dynamic and engaging user interface. Collectively, Express.js and Deno Fresh provide a comprehensive solution that enhances efficiency, security, and maintainability, aligning the project with current industry standards and best practices for modern web application development.
